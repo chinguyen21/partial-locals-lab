@@ -1,7 +1,9 @@
 class StudentsController < ApplicationController
-  def new
+  
+  def new  
     @student = Student.new
   end
+
 
   def create
     @student = Student.new(student_params)
@@ -16,12 +18,22 @@ class StudentsController < ApplicationController
     @student = Student.find(params[:id])
   end
 
+  def update
+    @student = Student.find(params[:id])
+    if @student
+      @student.update(student_params)
+      redirect_to @student
+    else
+      render 'edit'
+    end
+  end
+
   def show
     @student = Student.find(params[:id])
   end
 
   def index
-    @students = Student.all
+    @students = Student.search(params[:query])
   end
 
   def student_params
